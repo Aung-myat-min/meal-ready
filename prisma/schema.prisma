@@ -12,7 +12,7 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
+model MUser {
   userId            String    @id @default(uuid())
   userName          String
   userEmail         String    @unique
@@ -39,7 +39,7 @@ model Channel {
   // relationships
   associatedSub  Subscription?
   channelFounder String        @unique
-  owner          User          @relation(fields: [channelFounder], references: [userId])
+  owner          MUser         @relation(fields: [channelFounder], references: [userId])
   // AUDIT
   createdAt      DateTime      @default(now())
   updatedAt      DateTime?     @updatedAt
