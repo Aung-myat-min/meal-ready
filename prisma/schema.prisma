@@ -11,3 +11,72 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  userId            String    @id @default(uuid())
+  userName          String
+  userEmail         String    @unique
+  // relationship
+  assoicatedChannel Channel?
+  // AUDIT
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime? @updatedAt
+}
+
+model CurrentStatus {
+  statusId      String     @id @default(uuid())
+  mealStatus    MealStatus @default(NONE)
+  updatedPerson String?
+  // AUDIT
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?  @updatedAt
+}
+
+model Channel {
+  channelId      String        @id @default(uuid())
+  channelName    String
+  channelCode    String        @unique
+  // relationships
+  associatedSub  Subscription?
+  channelFounder String        @unique
+  owner          User          @relation(fields: [channelFounder], references: [userId])
+  // AUDIT
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime?     @updatedAt
+}
+
+model Subscription {
+  subscriptionCode  String    @id @default(uuid())
+  // relationships
+  subscribers       String[]
+  channelId         String    @unique
+  associatedChannel Channel   @relation(fields: [channelId], references: [channelCode])
+  // AUDIT
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime? @updatedAt
+}
+
+model Log {
+  logId     String   @id @default(ulid())
+  logString String
+  logType   LogEnum
+  // AUDIT
+  createdAt DateTime @default(now())
+}
+
+// Enums
+enum MealStatus {
+  NONE
+  STARTED
+  PREPARING
+  COOKING
+  READY
+}
+
+enum LogEnum {
+  AUTH
+  USER
+  MEALSTATUS
+  CHANNEL
+  SUBSCRIPTION
+}
