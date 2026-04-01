@@ -4,7 +4,7 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
@@ -24,25 +24,30 @@ model MUser {
 }
 
 model CurrentStatus {
-  statusId      String     @id @default(uuid())
-  mealStatus    MealStatus @default(NONE)
-  updatedPerson String?
+  statusId         String     @id @default(uuid())
+  mealStatus       MealStatus @default(NONE)
+  updatedPerson    String?
+  // relationships
+  channelId        String     @unique
+  relatedChannelId Channel    @relation(fields: [channelId], references: [channelId])
   // AUDIT
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime?  @updatedAt
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime?  @updatedAt
 }
 
 model Channel {
-  channelId      String        @id @default(uuid())
-  channelName    String
-  channelCode    String        @unique
+  channelId        String         @id @default(uuid())
+  channelName      String
+  channelCode      String         @unique
   // relationships
-  associatedSub  Subscription?
-  channelFounder String        @unique
-  owner          MUser         @relation(fields: [channelFounder], references: [userId])
+  associatedStatus MealStatus?
+  associatedSub    Subscription?
+  channelFounder   String         @unique
+  owner            MUser          @relation(fields: [channelFounder], references: [userId])
   // AUDIT
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime?     @updatedAt
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime?      @updatedAt
+  currentStatus    CurrentStatus?
 }
 
 model Subscription {
