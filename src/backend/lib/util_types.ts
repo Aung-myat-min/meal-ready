@@ -5,6 +5,7 @@ export type MJWTPayload = {
 };
 
 export enum OperationStatus {
+  default,
   success,
   fail,
   notfound,

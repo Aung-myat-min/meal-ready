@@ -1,4 +1,4 @@
-import { Channel, MealStatus } from "@/generated/prisma";
+import { Channel, MealStatus } from "@prisma/client";
 import prisma from "../lib/main_prisma";
 
 export class ChannelController {

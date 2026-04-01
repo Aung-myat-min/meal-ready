@@ -1,16 +1,17 @@
-import { MUser } from "@/generated/prisma";
+import { MUser } from "@prisma/client";
 import prisma from "../lib/main_prisma";
 
 export class UserController {
   static async create({
     data,
   }: {
-    data: { userName: string; userEmail: string };
+    data: { userName: string; userEmail: string; hashedPass: string };
   }): Promise<MUser> {
     const newMUser = await prisma.mUser.create({
       data: {
         userName: data.userName,
         userEmail: data.userEmail,
+        password: data.hashedPass,
       },
     });
 

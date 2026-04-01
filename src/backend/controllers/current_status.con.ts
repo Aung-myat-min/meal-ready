@@ -1,4 +1,4 @@
-import { CurrentStatus } from "@/generated/prisma";
+import { CurrentStatus } from "@prisma/client";
 import prisma from "../lib/main_prisma";
 
 export class CurrentStatusController {

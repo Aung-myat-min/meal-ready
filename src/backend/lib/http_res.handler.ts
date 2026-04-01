@@ -10,12 +10,16 @@ export function httpResponse(
     switch (r.status) {
       case OperationStatus.success:
         response = NextResponse.json(r, { status: 200 });
+        break;
       case OperationStatus.fail:
         response = NextResponse.json(r, { status: 400 });
+        break;
       case OperationStatus.notfound:
         response = NextResponse.json(r, { status: 404 });
+        break;
       default:
         response = NextResponse.json(r, { status: 500 });
+        break;
     }
   } catch (error) {
     console.error(`Error Returning HTTP Response: ${error}`);
@@ -24,6 +28,6 @@ export function httpResponse(
       { status: 500 },
     );
   }
-
+  console.log(response.status);
   return response;
 }

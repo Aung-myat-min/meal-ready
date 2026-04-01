@@ -1,4 +1,4 @@
-import { Subscription } from "@/generated/prisma";
+import { Subscription } from "@prisma/client";
 import prisma from "../lib/main_prisma";
 
 export class SubscriptionController {

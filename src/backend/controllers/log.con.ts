@@ -1,4 +1,4 @@
-import { Log, LogEnum } from "@/generated/prisma";
+import { Log, LogEnum } from "@prisma/client";
 import prisma from "../lib/main_prisma";
 
 export class LogController {

@@ -4,7 +4,7 @@ import { httpResponse } from "@/backend/lib/http_res.handler";
 import JWTUtils from "@/backend/lib/jwt_utils";
 import PasswordUtils from "@/backend/lib/password_utils";
 import ResDto from "@/backend/lib/res_dto";
-import { LogEnum, MUser } from "@/generated/prisma";
+import { LogEnum, MUser } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function POST(
@@ -12,6 +12,8 @@ export async function POST(
   response: NextResponse,
 ): Promise<ResDto<MUser>> {
   let result = ResDto.Default<MUser>();
+  let loginSuccess = false;
+  let token = "";
   try {
     const data = await request.formData();
     const email = data.get("email");
@@ -20,8 +22,8 @@ export async function POST(
     if (
       email &&
       password &&
-      email === typeof "string" &&
-      password === typeof "string"
+      typeof email === "string" &&
+      typeof password === "string"
     ) {
       // get user
       const user = await UserController.getOneWithEmail({
@@ -37,14 +39,11 @@ export async function POST(
 
         if (matching) {
           // jwt generate & assign cookie
-          const token = JWTUtils.sign(user.userId);
-          response.cookies.set("authCard", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            maxAge: Number(process.env.JWT_TIME),
-            path: "/",
-          });
+          token = JWTUtils.sign(user.userId);
+          loginSuccess = true;
+
+          user.password = "";
+          result = ResDto.Success("Successfully LoggedIn!", user);
           // log generate
           LogController.create({
             data: {
@@ -67,5 +66,15 @@ export async function POST(
     console.error("Error: Server Error When user logining: ", error);
     result = ResDto.Fail("Server Error");
   }
-  return httpResponse(result, response);
+  response = httpResponse(result, response);
+  if (loginSuccess) {
+    response.cookies.set("authCard", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: Number(process.env.JWT_TIME),
+      path: "/",
+    });
+  }
+  return response;
 }

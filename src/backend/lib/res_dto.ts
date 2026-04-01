@@ -13,7 +13,7 @@ export default class ResDto<T> {
 
   static Default<T>(): ResDto<T> {
     return new ResDto(
-      OperationStatus.success,
+      OperationStatus.default,
       "Hey Developer, You have forgotten to complete here",
     );
   }
