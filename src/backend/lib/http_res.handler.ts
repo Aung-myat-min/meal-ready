@@ -1,24 +1,29 @@
+import { NextResponse } from "next/server";
 import ResDto from "./res_dto";
 import { OperationStatus } from "./util_types";
-import { NextApiResponse } from "next";
 
-export function httpResponse(r: ResDto<unknown>, res: NextApiResponse) {
+export function httpResponse(
+  r: ResDto<unknown>,
+  response: NextResponse,
+): NextResponse {
   try {
     switch (r.status) {
       case OperationStatus.success:
-        res.status(200).json(r);
-        break;
+        response = NextResponse.json(r, { status: 200 });
       case OperationStatus.fail:
-        res.status(400).json(r);
-        break;
+        response = NextResponse.json(r, { status: 400 });
       case OperationStatus.notfound:
-        res.status(404).json(r);
-        break;
+        response = NextResponse.json(r, { status: 404 });
       default:
-        res.status(500).json(r);
+        response = NextResponse.json(r, { status: 500 });
     }
   } catch (error) {
-    console.log(`Error Returning HTTP Response: ${error}`);
-    res.status(500).json({ message: "Internal Server Error!" });
+    console.error(`Error Returning HTTP Response: ${error}`);
+    response = NextResponse.json(
+      { message: "Internal Server Error!" },
+      { status: 500 },
+    );
   }
+
+  return response;
 }

@@ -2,7 +2,7 @@ import { Channel, MealStatus } from "@/generated/prisma";
 import prisma from "../lib/main_prisma";
 
 export class ChannelController {
-  async create({
+  static async create({
     data,
   }: {
     data: { channelName: string; channelCode: string; channelOwner: string };
@@ -18,7 +18,7 @@ export class ChannelController {
     return newChannel;
   }
 
-  async getOne({
+  static async getOne({
     data,
   }: {
     data: { channelId: string };
@@ -30,7 +30,7 @@ export class ChannelController {
     return channel ?? null;
   }
 
-  async getStatus({
+  static async getStatus({
     data,
   }: {
     data: { channelId: string };
@@ -49,7 +49,7 @@ export class ChannelController {
     return currentStatus?.currentStatus?.mealStatus ?? null;
   }
 
-  async updateOne({ data }: { data: Channel }): Promise<Channel> {
+  static async updateOne({ data }: { data: Channel }): Promise<Channel> {
     const updatedChannel = await prisma.channel.update({
       where: { channelId: data.channelId },
       data: data,
@@ -58,7 +58,11 @@ export class ChannelController {
     return updatedChannel;
   }
 
-  async deleteOne({ data }: { data: { channelId: string } }): Promise<void> {
+  static async deleteOne({
+    data,
+  }: {
+    data: { channelId: string };
+  }): Promise<void> {
     await prisma.channel.delete({ where: { channelId: data.channelId } });
   }
 }

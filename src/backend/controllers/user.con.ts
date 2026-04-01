@@ -2,7 +2,7 @@ import { MUser } from "@/generated/prisma";
 import prisma from "../lib/main_prisma";
 
 export class UserController {
-  async create({
+  static async create({
     data,
   }: {
     data: { userName: string; userEmail: string };
@@ -17,15 +17,32 @@ export class UserController {
     return newMUser;
   }
 
-  async getOne({ data }: { data: { userId: string } }): Promise<MUser | null> {
+  static async getOne({
+    data,
+  }: {
+    data: { userId: string };
+  }): Promise<Omit<MUser, "password"> | null> {
     const user = await prisma.mUser.findUnique({
       where: { userId: data.userId },
+      omit: { password: true },
     });
 
     return user ?? null;
   }
 
-  async updateOne({ data }: { data: MUser }): Promise<MUser> {
+  static async getOneWithEmail({
+    data,
+  }: {
+    data: { userEmail: string };
+  }): Promise<MUser | null> {
+    const user = await prisma.mUser.findUnique({
+      where: { userEmail: data.userEmail },
+    });
+
+    return user ?? null;
+  }
+
+  static async updateOne({ data }: { data: MUser }): Promise<MUser> {
     const updatedUser = await prisma.mUser.update({
       where: { userId: data.userId },
       data: data,
@@ -34,7 +51,11 @@ export class UserController {
     return updatedUser;
   }
 
-  async deleteOne({ data }: { data: { userId: string } }): Promise<void> {
+  static async deleteOne({
+    data,
+  }: {
+    data: { userId: string };
+  }): Promise<void> {
     await prisma.mUser.delete({ where: { userId: data.userId } });
   }
 }

@@ -2,7 +2,7 @@ import { Subscription } from "@/generated/prisma";
 import prisma from "../lib/main_prisma";
 
 export class SubscriptionController {
-  async create({
+  static async create({
     data,
   }: {
     data: { channelId: string };
@@ -16,7 +16,7 @@ export class SubscriptionController {
     return newSubscription;
   }
 
-  async getOne({
+  static async getOne({
     data,
   }: {
     data: { subscriptionCode: string };
@@ -28,7 +28,7 @@ export class SubscriptionController {
     return subscription ?? null;
   }
 
-  async addSubscriptors({
+  static async addSubscriptors({
     data,
   }: {
     data: { subscriptors: string[]; subscriptionCode: string };
@@ -45,7 +45,11 @@ export class SubscriptionController {
     return updatedSubscription;
   }
 
-  async updateOne({ data }: { data: Subscription }): Promise<Subscription> {
+  static async updateOne({
+    data,
+  }: {
+    data: Subscription;
+  }): Promise<Subscription> {
     const updatedSubscription = await prisma.subscription.update({
       where: { subscriptionCode: data.subscriptionCode },
       data: data,
@@ -54,7 +58,7 @@ export class SubscriptionController {
     return updatedSubscription;
   }
 
-  async deleteOne({
+  static async deleteOne({
     data,
   }: {
     data: { subscriptionCode: string };

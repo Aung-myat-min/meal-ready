@@ -2,14 +2,18 @@ import { Log, LogEnum } from "@/generated/prisma";
 import prisma from "../lib/main_prisma";
 
 export class LogController {
-  async create({
+  static logStringFormatter(message: string) {
+    return `${new Date().toUTCString()}::: ${message}`;
+  }
+
+  static async create({
     data,
   }: {
     data: { logType: LogEnum; logString: string };
   }): Promise<Log> {
     const newLog = await prisma.log.create({
       data: {
-        logString: data.logString,
+        logString: this.logStringFormatter(data.logString),
         logType: data.logType,
       },
     });
@@ -17,7 +21,7 @@ export class LogController {
     return newLog;
   }
 
-  async getLogs({
+  static async getLogs({
     data,
   }: {
     data: { startDate?: Date; endDate?: Date; logType?: LogEnum };

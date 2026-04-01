@@ -15,6 +15,7 @@ datasource db {
 model MUser {
   userId            String    @id @default(uuid())
   userName          String
+  password          String
   userEmail         String    @unique
   // relationship
   assoicatedChannel Channel?

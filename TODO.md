@@ -7,6 +7,7 @@
     - Validators & Controllers
 5. Mock UI
 6. Implement API into UI
+7. Make Documentations in `doc` folder
 
 ## Done
 ### Database Layer
@@ -22,3 +23,4 @@
 - [x] Controllers (user signin, signup)
 - [x] Route Response Class
 - [ ] Route Set Up
+- [ ] Middleware setup

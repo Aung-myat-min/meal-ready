@@ -11,6 +11,13 @@ export default class ResDto<T> {
     this.data = data;
   }
 
+  static Default<T>(): ResDto<T> {
+    return new ResDto(
+      OperationStatus.success,
+      "Hey Developer, You have forgotten to complete here",
+    );
+  }
+
   static Success<T>(message?: string, data?: T): ResDto<T> {
     return new ResDto(OperationStatus.success, message, data);
   }
