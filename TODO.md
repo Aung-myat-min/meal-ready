@@ -8,10 +8,17 @@
 5. Mock UI
 6. Implement API into UI
 
-## Current Progress
+## Done
 ### Database Layer
-- [ ] User
-- [ ] CurrentStatus
-- [ ] Channel
-- [ ] Subscription
-- [ ] Log
+- [x] User
+- [x] CurrentStatus
+- [x] Channel
+- [x] Subscription
+- [x] Log
+
+## Current Progress
+### Auth Controllers & Route
+- [ ] Utils SetUp (hasher, matcher, cookie generator, cookie validator)
+- [ ] Controllers (user signin, signup)
+- [ ] Route Response Class
+- [ ] Route Set Up
