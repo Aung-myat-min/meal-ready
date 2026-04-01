@@ -3,3 +3,9 @@ export type MJWTPayload = {
   iat?: number;
   exp?: number;
 };
+
+export enum OperationStatus {
+  success,
+  fail,
+  notfound,
+}
