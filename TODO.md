@@ -18,7 +18,7 @@
 
 ## Current Progress
 ### Auth Controllers & Route
-- [ ] Utils SetUp (hasher, matcher, cookie generator, cookie validator)
+- [x] Utils SetUp (hasher, matcher, cookie generator, cookie validator)
 - [ ] Controllers (user signin, signup)
 - [ ] Route Response Class
 - [ ] Route Set Up
