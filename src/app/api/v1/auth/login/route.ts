@@ -4,12 +4,13 @@ import { httpResponse } from "@/backend/lib/http_res.handler";
 import JWTUtils from "@/backend/lib/jwt_utils";
 import PasswordUtils from "@/backend/lib/password_utils";
 import ResDto from "@/backend/lib/res_dto";
+import { authTokenName } from "@/config";
 import { LogEnum, MUser } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function POST(
   request: Request,
-  response: NextResponse,
+  response: NextResponse
 ): Promise<ResDto<MUser>> {
   let result = ResDto.Default<MUser>();
   let loginSuccess = false;
@@ -68,7 +69,7 @@ export async function POST(
   }
   response = httpResponse(result, response);
   if (loginSuccess) {
-    response.cookies.set("authCard", token, {
+    response.cookies.set(authTokenName, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
