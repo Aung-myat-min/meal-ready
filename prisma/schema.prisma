@@ -14,15 +14,17 @@ datasource db {
 }
 
 model MUser {
-  userId            String    @id @default(uuid())
+  userId            String       @id @default(uuid())
   userName          String
   password          String
-  userEmail         String    @unique
+  userEmail         String       @unique
   // relationship
+  subscriptionCode  String
   assoicatedChannel Channel?
+  subscription      Subscription @relation(fields: [subscriptionCode], references: [subscriptionCode])
   // AUDIT
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime? @updatedAt
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime?    @updatedAt
 }
 
 model CurrentStatus {
@@ -55,7 +57,7 @@ model Channel {
 model Subscription {
   subscriptionCode  String    @id @default(uuid())
   // relationships
-  subscribers       String[]
+  subscribers       MUser[]
   channelId         String    @unique
   associatedChannel Channel   @relation(fields: [channelId], references: [channelCode])
   // AUDIT
