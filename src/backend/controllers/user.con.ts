@@ -18,6 +18,27 @@ export class UserController {
     return newMUser;
   }
 
+  static async getUserNameBySubCode({
+    data,
+  }: {
+    data: { subCode: string };
+  }): Promise<string[]> {
+    let names: string[] = [];
+
+    const n = await prisma.mUser.findMany({
+      where: {
+        subscriptionCode: data.subCode,
+      },
+      select: {
+        userName: true,
+      },
+    });
+
+    names = n.map((n) => n.userName);
+
+    return names;
+  }
+
   static async getOne({
     data,
   }: {
@@ -29,6 +50,23 @@ export class UserController {
     });
 
     return user ?? null;
+  }
+
+  static async addSub({
+    data,
+  }: {
+    data: { userId: string; subscriptionCode: string };
+  }): Promise<boolean> {
+    try {
+      await prisma.mUser.update({
+        where: { userId: data.userId },
+        data: { subscriptionCode: data.subscriptionCode },
+      });
+      return true;
+    } catch (error) {
+      console.error("Error: connnecting user to the sub", error);
+      return false;
+    }
   }
 
   static async getOneWithEmail({

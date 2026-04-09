@@ -29,12 +29,22 @@
 - [x] Route Set Up
 - [x] Middleware setup
 
-## Current Progress
-
 ### API Route SetUp
 
 - [x] Brainstrom Possible Routes with Pen & Paper
 - [x] Plan routes params & actions
 - [x] User to Subscription Relationship
-- [ ] SetUp Empty Routes
-- [ ] Document Empty Route Functions
+- [x] SetUp Empty Routes
+- [x] Document Empty Route Functions
+
+## Current Progress
+
+### Business Logic Layer
+Implement Controllers for 
+- [ ] /home
+- [ ] /status
+- [ ] /user
+- [ ] /channel
+- [ ] /channel/check
+- [ ] /channel/leave
+- [ ] /subscribe

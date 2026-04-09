@@ -1,3 +1,5 @@
+import { MealStatus } from "@prisma/client";
+
 export type MJWTPayload = {
   userId: string;
   iat?: number;
@@ -10,3 +12,19 @@ export enum OperationStatus {
   fail,
   notfound,
 }
+
+export type HomeReturn = {
+  user: {
+    name: string;
+    email: string;
+  };
+  channel: {
+    channelId: string | null;
+    channelName: string | null;
+  };
+  status: {
+    status: MealStatus;
+    updatedName: string;
+  };
+  subscribtors: string[];
+};

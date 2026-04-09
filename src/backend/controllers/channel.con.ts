@@ -1,4 +1,4 @@
-import { Channel, MealStatus } from "@prisma/client";
+import { Channel, CurrentStatus, MealStatus } from "@prisma/client";
 import prisma from "../lib/main_prisma";
 
 export class ChannelController {
@@ -34,19 +34,28 @@ export class ChannelController {
     data,
   }: {
     data: { channelId: string };
-  }): Promise<MealStatus | null> {
+  }): Promise<CurrentStatus | null> {
     const currentStatus = await prisma.channel.findUnique({
       where: { channelId: data.channelId },
       select: {
-        currentStatus: {
-          select: {
-            mealStatus: true,
-          },
-        },
+        currentStatus: true,
       },
     });
 
-    return currentStatus?.currentStatus?.mealStatus ?? null;
+    return currentStatus?.currentStatus ?? null;
+  }
+
+  static async getChannelBySubCode({
+    data,
+  }: {
+    data: { subCode: string };
+  }): Promise<Channel | null> {
+    const channel = await prisma.subscription.findUnique({
+      where: { subscriptionCode: data.subCode },
+      select: { associatedChannel: true },
+    });
+
+    return channel?.associatedChannel ?? null;
   }
 
   static async updateOne({ data }: { data: Channel }): Promise<Channel> {

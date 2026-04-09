@@ -19,9 +19,9 @@ model MUser {
   password          String
   userEmail         String       @unique
   // relationship
-  subscriptionCode  String
+  subscriptionCode  String?
   assoicatedChannel Channel?
-  subscription      Subscription @relation(fields: [subscriptionCode], references: [subscriptionCode])
+  subscription      Subscription? @relation(fields: [subscriptionCode], references: [subscriptionCode])
   // AUDIT
   createdAt         DateTime     @default(now())
   updatedAt         DateTime?    @updatedAt

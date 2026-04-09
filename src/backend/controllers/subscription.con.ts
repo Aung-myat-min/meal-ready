@@ -28,21 +28,15 @@ export class SubscriptionController {
     return subscription ?? null;
   }
 
-  static async addSubscriptors({
-    data,
-  }: {
-    data: { subscriptors: string[]; subscriptionCode: string };
-  }): Promise<Subscription> {
-    const updatedSubscription = await prisma.subscription.update({
-      where: { subscriptionCode: data.subscriptionCode },
-      data: {
-        subscribers: {
-          push: data.subscriptors,
-        },
+  static async getSubByUserId({ data }: { data: { userId: string } }) {
+    const subscription = await prisma.mUser.findFirst({
+      where: { userId: data.userId },
+      select: {
+        subscription: true,
       },
     });
 
-    return updatedSubscription;
+    return subscription;
   }
 
   static async updateOne({
