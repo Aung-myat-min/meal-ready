@@ -72,7 +72,7 @@ export async function GetHomeData(userId: string): Promise<ResDto<HomeReturn>> {
       response = ResDto.NotFound("User Not Found!");
     }
   } catch (error) {
-    console.error("Error: Getting Requried data for Home Page!");
+    console.error("Error: Getting Requried data for Home Page: ", error);
     response = ResDto.Fail("Server Error");
   }
 
