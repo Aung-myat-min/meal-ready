@@ -6,29 +6,31 @@ export function proxy(request: NextRequest) {
   // get cookie
   const cookies = request.cookies;
 
-  // // determine auth status
+  // determine auth status && route
+  const isAuthPage = request.nextUrl.pathname === "/get-ur-access-here";
   const authCookie = cookies.get(authTokenName);
-  if (!authCookie) {
-    return NextResponse.redirect(new URL("/get-ur-access-here", request.url), {
-      headers: { message: "You are not authenticated!" },
-    });
-  } else {
-    // get incoming request url
-    const isAuthPage = request.nextUrl.pathname === "/get-ur-access-here";
-    if (isAuthPage) {
+  let isValid = null;
+
+  // validation
+  if (authCookie) {
+    isValid = JWTUtils.validate(authCookie.value);
+  }
+
+  // redirect and actions
+  if (isAuthPage) {
+    if (isValid) {
       return NextResponse.redirect("/");
-    } else {
-      const isValid = JWTUtils.validate(authCookie.value);
-      if (!isValid) {
-        const res = NextResponse.redirect(
-          new URL("/get-ur-access-here", request.url),
-          {
-            headers: { message: "Your Authentication Status is expired!" },
-          }
-        );
-        res.cookies.delete(authTokenName);
-        return res;
-      }
+    }
+  } else {
+    if (!isValid) {
+      const res = NextResponse.redirect(
+        new URL("/get-ur-access-here", request.url),
+        {
+          headers: { message: "Authentication Status Not Valid!" },
+        }
+      );
+      res.cookies.delete(authTokenName);
+      return res;
     }
   }
 
@@ -36,5 +38,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/.*/auth/.*).*)"],
 };
