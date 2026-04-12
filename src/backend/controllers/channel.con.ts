@@ -1,5 +1,6 @@
 import { Channel, CurrentStatus, MealStatus } from "@prisma/client";
 import prisma from "../lib/main_prisma";
+import { ChannelWithRelations } from "../lib/util_types";
 
 export class ChannelController {
   static async create({
@@ -25,6 +26,22 @@ export class ChannelController {
   }): Promise<Channel | null> {
     const channel = await prisma.channel.findUnique({
       where: { channelId: data.channelId },
+    });
+
+    return channel ?? null;
+  }
+
+  static async getByCode({
+    data,
+  }: {
+    data: { channelCode: string };
+  }): Promise<ChannelWithRelations | null> {
+    const channel = await prisma.channel.findUnique({
+      where: { channelCode: data.channelCode },
+      select: {
+        associatedSub: true,
+        associatedStatus: true,
+      },
     });
 
     return channel ?? null;

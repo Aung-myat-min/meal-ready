@@ -1,4 +1,4 @@
-import { MealStatus } from "@prisma/client";
+import { MealStatus, Prisma } from "@prisma/client";
 
 export type MJWTPayload = {
   userId: string;
@@ -28,3 +28,10 @@ export type HomeReturn = {
   };
   subscribtors: string[];
 };
+
+export type ChannelWithRelations = Prisma.ChannelGetPayload<{
+  select: {
+    associatedStatus: true;
+    associatedSub: true;
+  };
+}>;
