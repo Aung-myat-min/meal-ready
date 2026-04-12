@@ -58,6 +58,18 @@ export class ChannelController {
     return channel?.associatedChannel ?? null;
   }
 
+  static async checkChannelAval({
+    data,
+  }: {
+    data: { channelCode: string };
+  }): Promise<boolean> {
+    const aval = await prisma.channel.findUnique({
+      where: { channelCode: data.channelCode },
+    });
+
+    return aval == null;
+  }
+
   static async updateOne({
     data,
   }: {
