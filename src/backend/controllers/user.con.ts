@@ -81,7 +81,7 @@ export class UserController {
     return user ?? null;
   }
 
-  static async updateOne({ data }: { data: MUser }): Promise<MUser> {
+  static async updateOne({ data }: { data: Partial<MUser> }): Promise<MUser> {
     const updatedUser = await prisma.mUser.update({
       where: { userId: data.userId },
       data: data,

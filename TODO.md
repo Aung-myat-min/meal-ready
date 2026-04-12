@@ -9,7 +9,8 @@
 5. Push Notification SetUp
 6. Mock UI
 7. Implement API into UI
-8. Make Documentations in `doc` folder
+8. Add Logs to Business Controllers
+9. Make Documentations in `doc` folder
 
 ## Done
 
@@ -40,7 +41,9 @@
 ## Current Progress
 
 ### Business Logic Layer
-Implement Controllers for 
+
+Implement Controllers for
+
 - [ ] /home
 - [ ] /status
 - [ ] /user
