@@ -82,6 +82,9 @@ export class UserController {
   }
 
   static async updateOne({ data }: { data: Partial<MUser> }): Promise<MUser> {
+    data = Object.fromEntries(
+      Object.entries(data).filter(([_, v]) => v !== undefined)
+    );
     const updatedUser = await prisma.mUser.update({
       where: { userId: data.userId },
       data: data,

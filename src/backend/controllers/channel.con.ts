@@ -58,7 +58,15 @@ export class ChannelController {
     return channel?.associatedChannel ?? null;
   }
 
-  static async updateOne({ data }: { data: Channel }): Promise<Channel> {
+  static async updateOne({
+    data,
+  }: {
+    data: Partial<Channel>;
+  }): Promise<Channel> {
+    data = Object.fromEntries(
+      Object.entries(data).filter(([_, v]) => v !== undefined)
+    );
+
     const updatedChannel = await prisma.channel.update({
       where: { channelId: data.channelId },
       data: data,
