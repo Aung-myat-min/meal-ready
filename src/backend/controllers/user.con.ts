@@ -1,5 +1,6 @@
 import { MUser } from "@prisma/client";
 import prisma from "../lib/main_prisma";
+import { disconnect } from "process";
 
 export class UserController {
   static async create({
@@ -91,6 +92,21 @@ export class UserController {
     });
 
     return updatedUser;
+  }
+
+  static async leaveChannel({
+    data,
+  }: {
+    data: { userId: string };
+  }): Promise<void> {
+    await prisma.mUser.update({
+      where: { userId: data.userId },
+      data: {
+        subscription: {
+          disconnect: true,
+        },
+      },
+    });
   }
 
   static async deleteOne({
