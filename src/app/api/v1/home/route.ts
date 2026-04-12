@@ -1,3 +1,6 @@
+import { verifyAuth } from "@/app/lib/dal";
+import { httpResponse } from "@/backend/lib/http_res.handler";
+import { GetHomeData } from "@/backend/services/v1/home";
 import { NextResponse } from "next/server";
 
 /**
@@ -14,6 +17,10 @@ import { NextResponse } from "next/server";
  * - status: {status: Status & updatedName: string }
  * - subscribtors: string[]
  */
-export async function GET() {
-  return NextResponse.json({ message: "Not Implemented!" });
+export async function GET(response: NextResponse) {
+  const { isAuth, userId } = await verifyAuth();
+
+  const result = await GetHomeData(userId);
+
+  return httpResponse(result, response);
 }

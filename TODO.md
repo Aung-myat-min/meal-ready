@@ -38,16 +38,23 @@
 - [x] SetUp Empty Routes
 - [x] Document Empty Route Functions
 
-## Current Progress
-
 ### Business Logic Layer
 
 Implement Controllers for
 
-- [ ] /home
-- [ ] /status
-- [ ] /user
-- [ ] /channel
-- [ ] /channel/check
-- [ ] /channel/leave
-- [ ] /subscribe
+- [x] /home
+- [x] /status
+- [x] /user
+- [x] /channel
+- [x] /channel/check
+- [x] /channel/leave
+- [x] /subscribe
+
+## Current Progress
+
+### Push Notification SetUp
+
+- [ ] learn how to set up push noti
+- [ ] choose a solution
+- [ ] set up
+- [ ] test
